@@ -42,7 +42,9 @@ center = [
 
 # ['Nelder-Mead', 'Powell', 'CG', 'BFGS', 'TNC', 'trust-constr']
 
-minimize_method = 'bfgs'
+minimize_method = 'l-bfgs-b'
+# 'cg' 4, 'l-bfgs-b' 4+, 'tnc' 4, 'cobyla' 3, 'slsqp' strange 4+
+
 minimize_tolerance = 1e-8
 minimize_max_iteration = 5000
 
@@ -129,17 +131,22 @@ def err(r, th, a1, a2):
 def squared_error(a):
     return sum([err(r[i], th[i], a[:K], a[K:])**2 for i in range(len(r))])
 
+def print_results(name, a):
+    print(name)
+    print("a1 = ", a[:K])
+    print("a2 = ", a[K:])
+    print("MSE = ", squared_error(a) / len(r), "\n")
+
+
 # Начальное приближение
 # a0 = [0.1 for k in range(K+M)]
 a0 = theoretical_solution(sigma_22_inf=sigma_22_inf, crack_width=crack_width, alpha=0)
 
-print("a0 = ",a0)
-print("squared_error(a0) = ", squared_error(a0), "\n")
+print_results("Теоретическое решение для бесконечной пластины", a0)
 
 res = minimize(squared_error, a0, method=minimize_method, tol=minimize_tolerance, options={"maxiter" : minimize_max_iteration})
 
-print("mse_a = ", res.x)
-print("squared_error(mse_a) = ", squared_error(res.x), "\n")
+print_results("Минимизация квадратичного отклонения", res.x)
 
 def derr_da1(r, th, p, a1, a2):
      return 2 * r**(p/2-1) * (
@@ -169,6 +176,5 @@ for iteration in range(overdetermined_method_max_iterations):
     if sum((a-a_prev)**2) < overdetermined_method_precision:
         break
 
-print("od_a = ",a)
-print("squared_error(od_a) = ", squared_error(a))
+print_results("Переопределённый метод", a)
 
