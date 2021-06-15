@@ -1,6 +1,7 @@
 from math import cos, sin, atan2, sqrt
 import csv
 import numpy as np
+from math import factorial
 from scipy.optimize import minimize
 from scipy.linalg import lstsq
 
@@ -10,8 +11,13 @@ example = 0
 
 N = 3
 h = [5.7, 5.0][example]  # mm
+w = [52, 50][example] # mm
+crack_width = 34.29787 - 16.516718 # mm, narrow version
+load = 100 # kg
 fs = 1.823 # kg/mm из статьи Л. В. Степановой и В. С. Долгих
-# fs = 1.945659 # из программы тарировки
+# fs = 1.945659 # kg/mm из программы тарировки
+
+sigma_22_inf = load / (w*h) # kg/mm**2
 
 
 # K, M = 5, 3
@@ -30,24 +36,33 @@ center = [
 
 # center = [34.3769, 51.604862]
 
-# Начальное приближение
-a0 = [0.1 for k in range(K+M)]
-
 # MINIMIZE_METHODS = ['nelder-mead', 'powell', 'cg', 'bfgs', 'newton-cg',
 #                     'l-bfgs-b', 'tnc', 'cobyla', 'slsqp', 'trust-constr',
 #                     'dogleg', 'trust-ncg', 'trust-exact', 'trust-krylov']
 
 # ['Nelder-Mead', 'Powell', 'CG', 'BFGS', 'TNC', 'trust-constr']
 
-minimize_method = 'nelder-mead'
+minimize_method = 'bfgs'
 minimize_tolerance = 1e-8
 minimize_max_iteration = 5000
 
-overdetermined_method_starts_from_previous_result = True
+overdetermined_method_starts_from_previous_result = False
 overdetermined_method_max_iterations = 100
 overdetermined_method_precision = 1E-15
 
 # === End of settings === #
+
+
+def theoretical_solution(sigma_22_inf, crack_width, alpha):
+    a = np.zeros((K+M))
+    for n in range(0, (K - 1) // 2):
+        a[2*n] = (-1)**(n+1) * factorial(2*n) * sigma_22_inf \
+            / (2**(3*n+1/2) * (factorial(n)**2) *(2*n-1) * (crack_width / 2) ** (n-1/2))
+
+    a[1] = sigma_22_inf * (alpha - 1) / 4
+
+    return a
+
 
 points = []
 with open(points_file) as csv_file:
@@ -111,14 +126,20 @@ def err(r, th, a1, a2):
         + 4 * sigma12(r, th, a1, a2) ** 2 - left
 
 
-def objective(a):
+def squared_error(a):
     return sum([err(r[i], th[i], a[:K], a[K:])**2 for i in range(len(r))])
 
+# Начальное приближение
+# a0 = [0.1 for k in range(K+M)]
+a0 = theoretical_solution(sigma_22_inf=sigma_22_inf, crack_width=crack_width, alpha=0)
 
-res = minimize(objective, a0, method=minimize_method, tol=minimize_tolerance, options={"maxiter" : minimize_max_iteration})
+print("a0 = ",a0)
+print("squared_error(a0) = ", squared_error(a0), "\n")
 
-print(res.x)
-print(objective(res.x))
+res = minimize(squared_error, a0, method=minimize_method, tol=minimize_tolerance, options={"maxiter" : minimize_max_iteration})
+
+print("mse_a = ", res.x)
+print("squared_error(mse_a) = ", squared_error(res.x), "\n")
 
 def derr_da1(r, th, p, a1, a2):
      return 2 * r**(p/2-1) * (
@@ -148,6 +169,6 @@ for iteration in range(overdetermined_method_max_iterations):
     if sum((a-a_prev)**2) < overdetermined_method_precision:
         break
 
-print(a)
-print(objective(a))
+print("od_a = ",a)
+print("squared_error(od_a) = ", squared_error(a))
 
