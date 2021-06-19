@@ -7,6 +7,8 @@ from scipy.optimize import minimize, root_scalar, fsolve
 import matplotlib.pyplot as plt
 import matplotlib.image as mp_img
 
+# Начальное приближение
+a0 = theoretical_solution(sigma_22_inf=sigma_22_inf, crack_width=crack_width, alpha=0)
 
 steps_th = 100
 theor_points = []
@@ -39,4 +41,12 @@ plt.plot(x1, y1, label="line 1")
 plt.show()
 
 img = mp_img.imread(image_file)
+img = np.array(img)
+
+for i in range(len(x1)):
+    x = round((x1[i]+center[0]) * img.shape[1] / w)
+    y = round((-y1[i]+center[1]) * img.shape[1] / w)
+    img[y, x, :] = 255
+
 plt.imshow(img)
+plt.show()

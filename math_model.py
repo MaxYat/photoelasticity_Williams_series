@@ -1,6 +1,6 @@
 from settings import *
 from math import cos, sin, atan2, sqrt, pi, factorial
-
+import numpy as np
 
 def theoretical_solution(sigma_22_inf, crack_width, alpha):
     a = np.zeros((K+M))
