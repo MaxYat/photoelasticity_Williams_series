@@ -1,14 +1,14 @@
 example = 0
 
-N = 3
+N = 2
 h = [5.7, 5.0][example]  # mm
 w = [52, 50][example] # mm
 crack_width = 34.29787 - 16.516718 # mm, narrow version
 # crack_width = 34.534954 - 16.358664 # mm, wide version
 load = 100 # kg
 # fs = 1.823 # kg/mm из статьи Л. В. Степановой и В. С. Долгих
-fs = 1.945659 # kg/mm из программы тарировки
-# fs = 1.77
+# fs = 1.945659 # kg/mm из программы тарировки
+fs = 1.77 # kg/mm из программы тарировки
 
 sigma_22_inf = load / (w*h) # kg/mm**2
 
@@ -25,8 +25,8 @@ image_file = [
     ][example]
 
 points_file = [
-    f"{path}points_Р01-{load}кг_N_{N}_of_5.txt",
-    f"{path}Points_Р 11-{load}кг_N_{N}_of_4.txt"
+    f"{path}points_Р01-{load}кг_N_{N+1}_of_5.txt",
+    f"{path}Points_Р 11-{load}кг_N_{N+1}_of_4.txt"
     ][example]
 
 center = [
