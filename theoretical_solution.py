@@ -48,5 +48,7 @@ for i in range(len(x1)):
     y = round((-y1[i]+center[1]) * img.shape[1] / w)
     img[y, x, :] = 255
 
+fig = plt.figure(figsize=(10, 10 / img.shape[1] * img.shape[0]), dpi=300)
+
 plt.imshow(img)
 plt.show()
