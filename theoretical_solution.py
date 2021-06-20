@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mp_img
 import csv
 
+show_experimental_points = False
+
 # Начальное приближение
 a0 = theoretical_solution(sigma_22_inf=sigma_22_inf, crack_width=crack_width, alpha=0)
 
@@ -66,16 +68,17 @@ for i in range(len(x1)):
     y = round((-y1[i]+center[1]) * img.shape[1] / w)
     img[y, x, :] = 255
 
-points = []
-with open(points_file) as csv_file:
-    reader = csv.reader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
-    for row in reader:
-        points.append(row)
+if show_experimental_points:
+    points = []
+    with open(points_file) as csv_file:
+        reader = csv.reader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
+        for row in reader:
+            points.append(row)
 
-for i in range(len(points)):
-    x = round(points[i][0] * img.shape[1] / w)
-    y = round(points[i][1] * img.shape[1] / w)
-    img[y, x, 0] = 255
+    for i in range(len(points)):
+        x = round(points[i][0] * img.shape[1] / w)
+        y = round(points[i][1] * img.shape[1] / w)
+        img[y, x, 0] = 255
 
 
 fig = plt.figure(figsize=(10, 10 / img.shape[1] * img.shape[0]), dpi=300)

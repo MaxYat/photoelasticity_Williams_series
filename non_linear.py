@@ -34,10 +34,13 @@ with open(points_file) as csv_file:
     for row in reader:
         points.append(row)
 
+if not (take_lower_points and take_upper_points):
+    points = [point for point in points if point[1] < center[1]] if take_upper_points \
+        else [point for point in points if point[1] > center[1]]
 
 r = [sqrt((point[0]-center[0])**2 + (point[1]-center[1])**2) for point in points]
-# th = [abs(atan2(-point[1]+center[1], point[0]-center[0])) for point in points]
-th = [(atan2(-point[1]+center[1], point[0]-center[0])) for point in points]
+th = [atan2(-point[1]+center[1], point[0]-center[0]) for point in points] if inverse_theta \
+    else [atan2(point[1]-center[1], point[0]-center[0]) for point in points]
 
 
 def squared_error(a):
@@ -75,3 +78,4 @@ for iteration in range(overdetermined_method_max_iterations):
         break
 
 print_results("Переопределённый метод", a)
+print_settings()

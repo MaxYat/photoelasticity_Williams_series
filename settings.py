@@ -1,6 +1,10 @@
 example = 0
 
-N = 2
+inverse_theta = False
+take_upper_points = True
+take_lower_points = False
+
+N = 1
 h = [5.7, 5.0][example]  # mm
 w = [52, 50][example] # mm
 crack_width = 34.29787 - 16.516718 # mm, narrow version
@@ -35,3 +39,9 @@ center = [
     ][example]
 
 # center = [34.3769, 51.604862]
+
+def print_settings():
+    print(f"example={example}, N={N}, h={h}, w={w}, crack_width={crack_width}, load={load}, fs={fs}, K={K}, M={M}")
+    print(f"center={center}, inverse_theta={inverse_theta}, take_upper_points={take_upper_points}, take_lower_points={take_lower_points}")
+    print(f"points_file={points_file}")
+    print(f"image_file={image_file}")
