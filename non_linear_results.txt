@@ -23,3 +23,111 @@ center=[34.3769, 51.604862]
 points_file=data/One_crack/points_Р01-100кг_N_2_of_5.txt
 image_file=data/One_crack/Р01-100кг.jpg
 ============================
+Теоретическое решение для бесконечной пластины
+a1 =  [ 7.11331027e-01 -8.43454791e-02  2.00023887e-02  0.00000000e+00
+ -2.81230213e-04  0.00000000e+00  0.00000000e+00]
+a2 =  [0. 0. 0. 0. 0.]
+MSE =  0.004961306482728182
+
+Минимизация квадратичного отклонения
+a1 =  [ 0.70472096 -0.07729899  0.02229558 -0.02557389  0.05412584 -0.01205387
+  0.00699469]
+a2 =  [ 0.00224742  0.          0.02882763 -0.01027271  0.01193516]
+MSE =  8.86773947033685e-07
+
+Переопределённый метод
+a1 =  [ 6.06367440e-14 -2.32894737e-01  7.41980392e-13  8.14519583e-14
+ -1.72788597e-14  3.62173442e-15 -1.04325984e-15]
+a2 =  [-5.38065894e-13 -3.08218081e-14 -2.02579837e-13  2.75690616e-14
+ -1.01338613e-14]
+MSE =  5.752110767236545e-32
+
+example=0, N=3, h=5.7, w=52, crack_width=17.781152000000002, load=100, fs=1.77, K=7, M=5
+center=[34.45593, 51.288754], inverse_theta=False, take_upper_points=True, take_lower_points=False
+points_file=data/One_crack/points_Р01-100кг_N_4_of_5.txt
+image_file=data/One_crack/Р01-100кг.jpg
+=======================
+/home/max/PyProjects/photoelastisity/venv/bin/python /opt/pycharm-2020.1/plugins/python/helpers/pydev/pydevconsole.py --mode=client --port=42961
+import sys; print('Python %s on %s' % (sys.version, sys.platform))
+sys.path.extend(['/home/max/PyProjects/photoelastisity'])
+PyDev console: starting.
+Python 3.8.5 (default, Jan 27 2021, 15:41:15)
+[GCC 9.3.0] on linux
+runfile('/home/max/PyProjects/photoelastisity/non_linear.py', wdir='/home/max/PyProjects/photoelastisity')
+Теоретическое решение для бесконечной пластины
+a1 =  [ 7.11331027e-01 -8.43454791e-02  2.00023887e-02  0.00000000e+00
+ -2.81230213e-04  0.00000000e+00  0.00000000e+00]
+a2 =  [0. 0. 0. 0. 0.]
+MSE =  0.003816383881580291
+Минимизация квадратичного отклонения
+a1 =  [ 0.70362686 -0.07929463  0.02283639 -0.03141289  0.05760911 -0.01183943
+  0.00738273]
+a2 =  [-0.00426288  0.         -0.03245338  0.01451797 -0.01567013]
+MSE =  9.222187194111191e-07
+Переопределённый метод
+a1 =  [ 1.31001683e-13 -2.32894737e-01  2.99036337e-13  4.33824777e-14
+  6.64044051e-14 -4.06399297e-15 -2.95970498e-15]
+a2 =  [ 2.52896121e-13 -3.20982390e-14  1.81361799e-13 -2.54924374e-13
+  4.17215652e-14]
+MSE =  5.341245712433934e-32
+example=0, N=3, h=5.7, w=52, crack_width=17.781152000000002, load=100, fs=1.77, K=7, M=5
+center=[34.3769, 51.20973], inverse_theta=True, take_upper_points=True, take_lower_points=False
+points_file=data/One_crack/points_Р01-100кг_N_4_of_5.txt
+image_file=data/One_crack/Р01-100кг.jpg
+================================
+/home/max/PyProjects/photoelastisity/venv/bin/python /opt/pycharm-2020.1/plugins/python/helpers/pydev/pydevconsole.py --mode=client --port=42117
+import sys; print('Python %s on %s' % (sys.version, sys.platform))
+sys.path.extend(['/home/max/PyProjects/photoelastisity'])
+PyDev console: starting.
+Python 3.8.5 (default, Jan 27 2021, 15:41:15)
+[GCC 9.3.0] on linux
+runfile('/home/max/PyProjects/photoelastisity/non_linear.py', wdir='/home/max/PyProjects/photoelastisity')
+Теоретическое решение для бесконечной пластины
+a1 =  [ 7.11331027e-01 -8.43454791e-02  2.00023887e-02  0.00000000e+00
+ -2.81230213e-04  0.00000000e+00  0.00000000e+00]
+a2 =  [0. 0. 0. 0. 0.]
+MSE =  0.003816383881580291
+Минимизация квадратичного отклонения
+a1 =  [ 0.70362481 -0.07922009  0.02257332 -0.03129819  0.05750841 -0.01182884
+  0.00737568]
+a2 =  [ 0.00426058  0.          0.03261398 -0.01477045  0.0156683 ]
+MSE =  9.221387728597563e-07
+Переопределённый метод
+a1 =  [ 1.31001683e-13 -2.32894737e-01  2.99036337e-13  4.33824777e-14
+  6.64044051e-14 -4.06399297e-15 -2.95970498e-15]
+a2 =  [-2.52896121e-13 -3.20982390e-14 -1.81361799e-13  2.54924374e-13
+ -4.17215652e-14]
+MSE =  5.341245712433934e-32
+example=0, N=3, h=5.7, w=52, crack_width=17.781152000000002, load=100, fs=1.77, K=7, M=5
+center=[34.3769, 51.20973], inverse_theta=False, take_upper_points=True, take_lower_points=False
+points_file=data/One_crack/points_Р01-100кг_N_4_of_5.txt
+image_file=data/One_crack/Р01-100кг.jpg
+====================================
+/home/max/PyProjects/photoelastisity/venv/bin/python /opt/pycharm-2020.1/plugins/python/helpers/pydev/pydevconsole.py --mode=client --port=43717
+import sys; print('Python %s on %s' % (sys.version, sys.platform))
+sys.path.extend(['/home/max/PyProjects/photoelastisity'])
+PyDev console: starting.
+Python 3.8.5 (default, Jan 27 2021, 15:41:15)
+[GCC 9.3.0] on linux
+runfile('/home/max/PyProjects/photoelastisity/non_linear.py', wdir='/home/max/PyProjects/photoelastisity')
+Теоретическое решение для бесконечной пластины
+a1 =  [ 7.11331027e-01 -8.43454791e-02  2.00023887e-02  0.00000000e+00
+ -2.81230213e-04  0.00000000e+00  0.00000000e+00]
+a2 =  [0. 0. 0. 0. 0.]
+MSE =  0.10807007747648398
+Минимизация квадратичного отклонения
+a1 =  [ 7.11439514e-01 -8.50848959e-02  1.96480093e-02  3.90799663e-03
+  5.36425651e-03 -1.82565561e-03  5.45325013e-04]
+a2 =  [-6.82107674e-05  0.00000000e+00 -2.99165138e-03 -2.84178801e-03
+ -1.30414466e-03]
+MSE =  4.366293087360731e-06
+Переопределённый метод
+a1 =  [ 1.66572758e+00  4.23174650e-01 -7.41445900e-01 -1.36647377e-02
+  2.81369111e-02 -2.71173181e-03  6.95170718e-04]
+a2 =  [-4.60119838e-02  1.18890809e-15 -1.31210214e-01  1.41776803e-01
+ -2.59413967e-03]
+MSE =  3.704590522138781e-11
+example=0, N=3, h=5.7, w=52, crack_width=17.781152000000002, load=100, fs=1.77, K=7, M=5
+center=[34.3769, 51.20973], inverse_theta=True, take_upper_points=False, take_lower_points=True
+points_file=data/One_crack/points_Р01-100кг_N_4_of_5.txt
+image_file=data/One_crack/Р01-100кг.jpg

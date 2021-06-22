@@ -2,9 +2,9 @@ example = 0
 
 inverse_theta = False
 take_upper_points = True
-take_lower_points = False
+take_lower_points = True
 
-N = 1
+N = 3
 h = [5.7, 5.0][example]  # mm
 w = [52, 50][example] # mm
 crack_width = 34.29787 - 16.516718 # mm, narrow version
@@ -13,6 +13,7 @@ load = 100 # kg
 # fs = 1.823 # kg/mm из статьи Л. В. Степановой и В. С. Долгих
 # fs = 1.945659 # kg/mm из программы тарировки
 fs = 1.77 # kg/mm из программы тарировки
+
 
 sigma_22_inf = load / (w*h) # kg/mm**2
 
@@ -39,6 +40,11 @@ center = [
     ][example]
 
 # center = [34.3769, 51.604862]
+
+# center = [34.613983, 52.0]
+# center = [34.45593, 51.288754] # 2 странных решения см. non_linear_results.txt
+# center = [34.3769, 51.20973]
+
 
 def print_settings():
     print(f"example={example}, N={N}, h={h}, w={w}, crack_width={crack_width}, load={load}, fs={fs}, K={K}, M={M}")

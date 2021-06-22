@@ -6,6 +6,7 @@ import csv
 import numpy as np
 from scipy.optimize import minimize, root_scalar, fsolve
 from scipy.linalg import lstsq
+from artificial_isochrome import show_artificial_isochrome
 import matplotlib.pyplot as plt
 
 # === Numeric methods settings === #
@@ -79,3 +80,7 @@ for iteration in range(overdetermined_method_max_iterations):
 
 print_results("Переопределённый метод", a)
 print_settings()
+
+show_artificial_isochrome(a0)
+show_artificial_isochrome(res.x)
+show_artificial_isochrome(a)
