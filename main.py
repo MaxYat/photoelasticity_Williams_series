@@ -75,12 +75,14 @@ for iteration in range(overdetermined_method_max_iterations):
     delta_a, _, _, _ = lstsq(A, B)
     a = a+delta_a
 
+    # show_artificial_isochrome(a)
+
     if sum((a-a_prev)**2)/len(a) < overdetermined_method_precision:
         break
 
 print_results("Переопределённый метод", a)
 print_settings()
 
-show_artificial_isochrome(a0)
-show_artificial_isochrome(res.x)
-show_artificial_isochrome(a)
+# show_artificial_isochrome(a0)
+show_artificial_isochrome(res.x, points=points)
+# show_artificial_isochrome(a)

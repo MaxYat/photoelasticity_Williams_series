@@ -4,7 +4,7 @@ inverse_theta = False
 take_upper_points = True
 take_lower_points = True
 
-N = 3
+N = 2
 h = [5.7, 5.0][example]  # mm
 w = [52, 50][example] # mm
 crack_width = 34.29787 - 16.516718 # mm, narrow version

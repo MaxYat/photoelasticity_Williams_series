@@ -9,7 +9,8 @@ import matplotlib.image as mp_img
 import csv
 
 
-def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = None):
+def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = None,
+                              show_graphics = True, show_photo = True):
 
     theor_points = []
 
@@ -17,7 +18,6 @@ def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = No
         theor_th = pi * i / steps_th
 
         def theor_err(r):
-            # global theor_th, a0
             return err(r, theor_th, a[:K], a[K:])
 
         left_border, right_border = 0.00001, 5
@@ -50,35 +50,37 @@ def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = No
         theor_points.append([theor_r, theor_th])
         # print(f"{theor_r}, {theor_th}")
 
+    if show_graphics:
+        x1 = [point[0]*cos(point[1]) for point in theor_points]
+        y1 = [point[0]*sin(point[1]) for point in theor_points]
+        plt.plot(x1, y1, label="line 1")
+        plt.show()
 
-    x1 = [point[0]*cos(point[1]) for point in theor_points]
-    y1 = [point[0]*sin(point[1]) for point in theor_points]
-    plt.plot(x1, y1, label="line 1")
-    plt.show()
+    if show_photo:
+        img = mp_img.imread(image_file)
+        img = np.array(img)
 
-    img = mp_img.imread(image_file)
-    img = np.array(img)
+        for i in range(len(x1)):
+            x = round((x1[i]+center[0]) * img.shape[1] / w)
+            y = round((-y1[i]+center[1]) * img.shape[1] / w)
+            img[y, x, :] = 255
 
-    for i in range(len(x1)):
-        x = round((x1[i]+center[0]) * img.shape[1] / w)
-        y = round((-y1[i]+center[1]) * img.shape[1] / w)
-        img[y, x, :] = 255
+        if points_file is not None:
+            points = []
+            with open(points_file) as csv_file:
+                reader = csv.reader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
+                for row in reader:
+                    points.append(row)
 
-    if points_file is not None:
-        points = []
-        with open(points_file) as csv_file:
-            reader = csv.reader(csv_file, quoting=csv.QUOTE_NONNUMERIC)
-            for row in reader:
-                points.append(row)
-
-    if points is not None:
-        for i in range(len(points)):
-            x = round(points[i][0] * img.shape[1] / w)
-            y = round(points[i][1] * img.shape[1] / w)
-            img[y, x, 0] = 255
+        if points is not None:
+            for i in range(len(points)):
+                x = round(points[i][0] * img.shape[1] / w)
+                y = round(points[i][1] * img.shape[1] / w)
+                img[y, x, 0] = 255
 
 
-    fig = plt.figure(figsize=(10, 10 / img.shape[1] * img.shape[0]), dpi=300)
 
-    plt.imshow(img)
-    plt.show()
+        fig = plt.figure(figsize=(10, 10 / img.shape[1] * img.shape[0]), dpi=300)
+
+        plt.imshow(img)
+        plt.show()
