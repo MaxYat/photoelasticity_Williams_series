@@ -110,3 +110,7 @@ def add_noise_polar(r, th, noise_max_r):
         y = r[i] * sin(th[i]) + noise_r * sin(noise_th)
         r[i] = sqrt(x**2 + y**2)
         th[i] = atan2(y, x)
+
+
+def get_cartesian_by_polar(r, th, center):
+    return [[r[i] * cos(th[i]) + center[0], r[i] * sin(th[i]) + center[1]] for i in range(len(r))]

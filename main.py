@@ -6,7 +6,8 @@ import csv
 import numpy as np
 from scipy.optimize import minimize, root_scalar, fsolve
 from scipy.linalg import lstsq
-from artificial_isochrome import show_artificial_isochrome, get_points_by_solution, not_closer_than, add_noise_polar
+from artificial_isochrome import show_artificial_isochrome, get_points_by_solution, not_closer_than, add_noise_polar, \
+    get_cartesian_by_polar
 import matplotlib.pyplot as plt
 
 # === Numeric methods settings === #
@@ -15,7 +16,7 @@ MINIMIZE_METHODS = ['nelder-mead', 'powell', 'cg', 'bfgs', 'newton-cg',
                     'l-bfgs-b', 'tnc', 'cobyla', 'slsqp', 'trust-constr',
                     'dogleg', 'trust-ncg', 'trust-exact', 'trust-krylov']
 
-minimize_method = 'l-bfgs-b'
+minimize_method = 'L-BFGS-B'
 
 minimize_tolerance = 1e-8
 minimize_max_iteration = 5000
@@ -58,18 +59,19 @@ a0 = theoretical_solution(sigma_22_inf=sigma_22_inf, crack_width=crack_width, al
 min_distance = 1.5 # mm
 noise = 0.001 # mm
 r, th = get_points_by_solution(a0, 200)
+add_noise_polar(r, th, noise_max_r=noise)
 r, th = not_closer_than(r, th, min_r=min_distance)
 print(f"Искусственная изохрома, кол-во точек: {len(r)}, мин. расстояние от вершины трещины: {min_distance} мм, шум: {noise} мм")
-
-add_noise_polar(r, th, noise_max_r=noise) # chasing the ghost
 
 print_results("Теоретическое решение для бесконечной пластины", a0)
 
 res = minimize(squared_error, a0, method=minimize_method, tol=minimize_tolerance, options={"maxiter" : minimize_max_iteration})
 
-print_results("Минимизация квадратичного отклонения", res.x)
+print_results(f"Минимизация квадратичного отклонения методом {minimize_method}", res.x)
 
-a = res.x if overdetermined_method_starts_from_previous_result else a0[:]
+# a = res.x if overdetermined_method_starts_from_previous_result else a0[:]
+
+a = a0
 
 for iteration in range(overdetermined_method_max_iterations):
     B = [-err(r[i], th[i], a[:K], a[K:]) for i in range(len(r))]
@@ -89,6 +91,6 @@ for iteration in range(overdetermined_method_max_iterations):
 print_results("Переопределённый метод", a)
 print_settings()
 
-# show_artificial_isochrome(a0)
+# show_artificial_isochrome(a0, points=get_cartesian_by_polar(r, th, center))
 # show_artificial_isochrome(res.x, points=points)
 # show_artificial_isochrome(a)
