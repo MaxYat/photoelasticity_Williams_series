@@ -11,18 +11,18 @@ crack_width = 34.29787 - 16.516718 # mm, narrow version
 # crack_width = 34.534954 - 16.358664 # mm, wide version
 load = 100 # kg
 # fs = 1.823 # kg/mm из статьи Л. В. Степановой и В. С. Долгих
-# fs = 1.945659 # kg/mm из программы тарировки
-fs = 1.77 # kg/mm из программы тарировки
+# fs = 1.945659 # kg/mm из программы тарировки 1
+fs = 1.77 # kg/mm из программы тарировки 2
 
 
 sigma_22_inf = load / (w*h) # kg/mm**2
 
 # K, M = 5, 3
-K, M = 7, 5
-# K, M = 15, 0
+# K, M = 7, 5
+K, M = 15, 5
 # K, M = 15, 9
 
-path = f"data/{'One_crack' if example==0 else 'Two cracks'}/"
+path = f"data/{'One_crack' if example==0 else 'Two_cracks'}/"
 
 image_file = [
     f"{path}Р01-{load}кг.jpg",

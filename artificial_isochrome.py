@@ -1,3 +1,5 @@
+from random import random
+
 from settings import *
 from math_model import *
 
@@ -9,10 +11,8 @@ import matplotlib.image as mp_img
 import csv
 
 
-def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = None,
-                              show_graphics = True, show_photo = True):
-
-    theor_points = []
+def get_points_by_solution(a, steps_th = 250):
+    r, th = [], []
 
     for i in range(1, steps_th):
         theor_th = pi * i / steps_th
@@ -47,12 +47,30 @@ def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = No
         sol = root_scalar(theor_err, bracket=[left_border, right_border], method='brentq')
         theor_r = sol.root
 
-        theor_points.append([theor_r, theor_th])
+        r.append(theor_r)
+        th.append(theor_th)
         # print(f"{theor_r}, {theor_th}")
+    return r, th
+
+
+def not_closer_than(r, th, min_r):
+    result_r, result_th = [], []
+    for i in range(len(r)):
+        if r[i] >= min_r:
+            result_r.append(r[i])
+            result_th.append(th[i])
+    return result_r, result_th
+
+
+def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = None,
+                              show_graphics = True, show_photo = True):
+
+    theor_r, theor_th = get_points_by_solution(a, steps_th)
+
+    x1 = [theor_r[i] * cos(theor_th[i]) for i in range(len(theor_r))]
+    y1 = [theor_r[i] * sin(theor_th[i]) for i in range(len(theor_r))]
 
     if show_graphics:
-        x1 = [point[0]*cos(point[1]) for point in theor_points]
-        y1 = [point[0]*sin(point[1]) for point in theor_points]
         plt.plot(x1, y1, label="line 1")
         plt.show()
 
@@ -78,9 +96,17 @@ def show_artificial_isochrome(a, steps_th = 250, points = None, points_file = No
                 y = round(points[i][1] * img.shape[1] / w)
                 img[y, x, 0] = 255
 
-
-
         fig = plt.figure(figsize=(10, 10 / img.shape[1] * img.shape[0]), dpi=300)
 
         plt.imshow(img)
         plt.show()
+
+
+def add_noise_polar(r, th, noise_max_r):
+    for i in range(len(r)):
+        noise_th = random()*2*pi
+        noise_r = random()*noise_max_r
+        x = r[i] * cos(th[i]) + noise_r * cos(noise_th)
+        y = r[i] * sin(th[i]) + noise_r * sin(noise_th)
+        r[i] = sqrt(x**2 + y**2)
+        th[i] = atan2(y, x)
